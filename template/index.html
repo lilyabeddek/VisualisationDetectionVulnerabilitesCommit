@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700,900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static',filename='fonts/icomoon/style.css') }}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css') }}">
+
+    <title>Analyse des patchs</title>
+</head>
+
+<body>
+    <div class="content">
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h6 class="heading-section">Analysez vos commits</h6>
+                    <p class="sousTitre">Cette application vous permet d'analyser vos commits en variant : les modèles pré-entraînés pour l'apprentissage des caractéristiques, et les modèles de classification</p>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="box">
+                        <h3 class="heading">Paramétrez votre analyse</h3>
+                        <form class="mb-5" method="POST" id="contactForm" name="contactForm" action="{{ url_for('main') }}">
+                            <div class="row">
+
+                                <div class="col-md-12 form-group">
+                                    <label for="fichier" class="col-form-label">Fichier à analyser </label>
+                                    <input type="file" class="form-control" name="fichier" id="fichier" placeholder="Veuillez importer le fichier Diff à analyser" accept=".diff">
+                                </div>
+
+                                <div class=" col-md-12 form-group ">
+                                    <label for="pretrainedModels " class="col-form-label ">Modèle pour l'apprentissage des caractéristiques</label>
+                                    <select name="pretrainedModels" class="custom-select " id="pretrainedModels">
+                                      <optgroup label="BERT style">
+                                        <option value="CodeBert">CodeBERT</option>
+                                        <option value="GraphCodeBert">GraphCodeBERT</option>
+                                      </optgroup>
+                                      <optgroup label="GPT style ">
+                                        <option value="CodeGPT">CodeGPT</option>
+                                      </optgroup>
+                                      <optgroup label="BART style ">
+                                        <option value="UniXCoder">UniXCoder</option>
+                                        <option value="CodeT5" selected>CodeT5</option>
+                                      </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-5">
+                                <div class="col-md-12 form-group mb-3">
+                                    <label for="classification" class="col-form-label ">Algorithme de classification</label>
+                                    <select name="classification" class="custom-select " id="classification">
+                                      <option value="decisionTree">Arbre de Désion</option>
+                                      <option value="naiveBayes">Naive Bayes</option> 
+                                      <option value="regressionL" selected>Régression logistique</option>  
+                                      <option value="svm ">SVM</option> 
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="row justify-content-center">
+                                <div class="col-md-7 form-group text-center">
+                                    <button type="submit " value="Lancer l'Analyse" class="btn btn-block btn-primary rounded-0 py-2 px-4">Lancer l'analyse</button>
+                                    <span class="submitting"></span>
+                                </div>
+                            </div>
+
+
+                        </form>
+
+
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="box">
+                        <div class="col-md-12 mr-auto">
+                            <h3 class="heading mb-3">Résultat</h3>
+                            <p>Classe du Patch : {{ predictionClasse}}</p>
+                            <p>Prédiction : {{ originalClasse }}</p>
+
+                            <h3 class="heading mb-3">Métriques du modèle sélectionné</h3>
+                            <p> Précision : {{ precision }} %</p>
+                            <p> Rappel : {{ recall }} %</p>
+                            <p> Accuracy : {{ acc }} %</p>
+                            <p> Score F1 : {{ f1 }} %</p>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
+        <script src="js/main.js"></script>
+
+</body>
+
+</html>
